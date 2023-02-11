@@ -28,7 +28,7 @@ form.addEventListener('submit', (event) => {
   axios.get(url)
     .then(response => {
       const videoData = response.data.items;
-      // fs.writeFileSync('video-data.json', JSON.stringify(videoData));
+      fs.writeFileSync('/JSON-Files/video-data.json', JSON.stringify(videoData));
       // console.log('Video data saved as JSON file');      
       console.log(videoData);
       displayVideos(videoData);
@@ -37,7 +37,7 @@ form.addEventListener('submit', (event) => {
       //   axios.get(vidurl).then(response => {
       //     const videoData1 = response.data.items;
       //     console.log(videoData1);
-      // //     fs.writeFileSync(`video-data of ${video.id.videoId}.json`, JSON.stringify(videoData1));
+      // //     fs.writeFileSync(`/JSON-Files/video-data of ${video.id.videoId}.json`, JSON.stringify(videoData1));
       // //     console.log('Video data saved as JSON file' + video.id.videoId);      
       //   })
       // }
