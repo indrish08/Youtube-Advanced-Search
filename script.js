@@ -28,7 +28,7 @@ form.addEventListener('submit', (event) => {
   axios.get(url)
     .then(response => {
       const videoData = response.data.items;
-      fs.writeFileSync('/JSON-Files/video-data.json', JSON.stringify(videoData));
+      // fs.writeFileSync('/JSON-Files/video-data.json', JSON.stringify(videoData));
       // console.log('Video data saved as JSON file');      
       console.log(videoData);
       displayVideos(videoData);
