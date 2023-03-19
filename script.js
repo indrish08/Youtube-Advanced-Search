@@ -3,32 +3,25 @@
 // const express=require('express');
 // let exp=express();
 
-// Set the API key, the target country, the search query, and the maximum number of results
 const apiKey = 'AIzaSyCbUFozA3Gss_hcObFhxB22TcSXlxUiYUM';
-const maxResults = 10;
-// const targetCountry = 'US';
-// const searchQuery = 'javascript tamil';
+const targetCountry = 'US';
+const searchQuery = 'fullstack';
+const maxResults = 3;
 
 const form = document.querySelector('form');
-// console.log(form);
-const targetCountryInput = document.querySelector('input[name="targetCountry"]');
-const searchQueryInput = document.querySelector('input[name="searchQuery"]');
 
 form.addEventListener('submit', (event) => {
   event.preventDefault();
 
-  // Get the target country and the search query from the form
-  const targetCountry = targetCountryInput.value;
-  const searchQuery = searchQueryInput.value;
+  // const targetCountry = document.querySelector('input[name="targetCountry"]').value;
+  // const searchQuery = document.querySelector('input[name="searchQuery"]').value;
 
-//   // Make the API request
   const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&regionCode=${targetCountry}&q=${searchQuery}&type=video&key=${apiKey}&maxResults=${maxResults}`;
 
-  // Get the data from the API
   axios.get(url)
     .then(response => {
       const videoData = response.data.items;
-      fs.writeFileSync('/JSON-Files/video-data.json', JSON.stringify(videoData));
+      // fs.writeFileSync('/JSON-Files/video-data.json', JSON.stringify(videoData));
       // console.log('Video data saved as JSON file');      
       console.log(videoData);
       displayVideos(videoData);
@@ -44,8 +37,6 @@ form.addEventListener('submit', (event) => {
     })
 });
 
-
-
 // exp.get('/',(req,res)=>{
 //   res.sendFile(__dirname+"/index.html");
 // })
@@ -55,77 +46,53 @@ form.addEventListener('submit', (event) => {
 //   console.log(`Server is listening on port ${3000}`);
 // });
 
-  function displayVideos(data) {
-    // const parentContainer = document.querySelector('#parent-container');
-    // parentContainer.style.display = 'flex'; 
-    // Loop through the video data and create elements for each piece of information
+function displayVideos(data) {
+  const results = document.querySelector('#results');
 
-    for (const video of data) {
-      const thumbnail = document.createElement('img');
-      // thumbnail.src = video.snippet.thumbnails.medium.url;
-      thumbnail.src = `https://i.ytimg.com/vi/${video.id.videoId}/mqdefault.jpg`;
-      thumbnail.style.width='300px';
+  for (const video of data) {
+    const thumbnail = document.createElement('img');
+    thumbnail.src = `https://i.ytimg.com/vi/${video.id.videoId}/mqdefault.jpg`;
+    thumbnail.style.width='300px';
 
-      const text = document.createElement('p');
-      text.innerHTML = "<b>"+video.snippet.title + 
-                        "</b><br><br> <b>Channel: </b>" + video.snippet.channelTitle + 
-                        "<br><br> <b>Description: </b>" + video.snippet.description;
-      text.style.marginLeft = "10px";
-      
-      // const title = document.createElement('p');
-      // title.innerHTML = `<b>Title: </b> ${video.snippet.title}<br>`;
+    const title = document.createElement('p');
+    title.innerHTML = `<b>"${video.snippet.title}</b><br><br>`
+    title.style.marginLeft = "10px";
 
-      // const description = document.createElement('p');
-      // description.innerHTML = `<b>Description: </b>${video.snippet.description}`;
-      // // description
+    const channel = document.createElement('p');
+    channel.innerHTML =  `<b>Channel: </b>${video.snippet.channelTitle}<br><br>`
+    channel.style.marginLeft = "10px";
     
-      // const channel = document.createElement('p');
-      // channel.innerHTML = `<b>Channel: </b>${video.snippet.channelTitle}`;
-      
-      var a = document.createElement('a');
-      a.href= 'https://www.youtube.com/watch?v=' + video.id.videoId ;
-      a.target="_blank";
-      a.appendChild(thumbnail); 
-      
-      const container = document.createElement('div');
-      container.style.display = "flex";
-      container.style.marginBottom = "20px";
-      container.appendChild(a);
-      container.appendChild(text);
-      
-      document.body.appendChild(container);
-      
-      // parentContainer.appendChild(thumbnail);
-      // parentContainer.appendChild(a);
-      // parentContainer.appendChild(text);
-      // parentContainer.appendChild(title);
-      // parentContainer.appendChild(description);
-      // parentContainer.appendChild(channel);
-      // parentContainer.appendChild(line);
-      // parentContainer.appendChild(views);
-      
-        // const lineBreak = document.createElement('br');
-        // parentContainer.appendChild(lineBreak);
-        // parentContainer.appendChild(lineBreak);
-        // parentContainer.appendChild(lineBreak);
-      // }    
+    const description = document.createElement('p');
+    description.innerHTML = `<b>Description: </b> ${video.snippet.description}`;
+    description.style.marginLeft = "10px";
+    
+    var thumbnailLink = document.createElement('a');
+    thumbnailLink.href= `https://www.youtube.com/watch?v=${video.id.videoId}`;
+    thumbnailLink.target="_blank";
+    thumbnailLink.appendChild(thumbnail); 
 
-      // const videoList = document.getElementById('video-list');
-      // for (const video of data) {
-      //   const videoTitle = video.snippet.title;
-      //   const videoLink = 'https://www.youtube.com/watch?v=' + video.id.videoId;
-      //   var a = document.createElement('a');
-      //   var link = document.createTextNode(videoLink);
-      //   a.appendChild(link); 
-      //   a.href=videoLink;
-      //   a.target="_blank";
-      //   const listItem = document.createElement('li');
-      //   const listItem2 = document.createElement('br');
-      //   listItem.textContent = videoTitle;
-      //   // listItem2.textContent = '<br>';
-      //   videoList.appendChild(listItem);
-      //   videoList.appendChild(a);
-      //   videoList.appendChild(listItem2);
-      //   // videoList.appendChild(a2.appendChild(document.createTextNode('<br>  httttttpp')));
-      }
+    var titleLink = document.createElement('a');
+    titleLink.href= `https://www.youtube.com/watch?v=${video.id.videoId}`;
+    titleLink.target="_blank";
+    titleLink.appendChild(title); 
+
+    var channelLink = document.createElement('a');
+    channelLink.href = `https://www.youtube.com/channel/${video.snippet.channelId}`;
+    channelLink.appendChild(channel);
+    
+    const container = document.createElement('div');
+    const tdiv = document.createElement('div');
+    const datadiv = document.createElement('div');
+    container.id = "con";
+
+    tdiv.appendChild(thumbnailLink);
+    datadiv.appendChild(titleLink);
+    datadiv.appendChild(channelLink);
+    datadiv.appendChild(description);
+    
+    container.appendChild(tdiv);
+    container.appendChild(datadiv);
+
+    results.appendChild(container);
   }
+}
