@@ -3,6 +3,11 @@
 }
 input{
     /* border: none; */
+    /* width: 100%; */
+  padding: 10px 20px;
+  margin: 7;
+  box-sizing: border-box;
+
 }
 #ytt{
     display: grid;

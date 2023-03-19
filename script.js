@@ -13,8 +13,8 @@ const form = document.querySelector('form');
 form.addEventListener('submit', (event) => {
   event.preventDefault();
 
-  // const targetCountry = document.querySelector('input[name="targetCountry"]').value;
-  // const searchQuery = document.querySelector('input[name="searchQuery"]').value;
+  const targetCountry = document.querySelector('input[id="targetCountry"]').value;
+  const searchQuery = document.querySelector('input[id="searchQuery"]').value;
 
   const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&regionCode=${targetCountry}&q=${searchQuery}&type=video&key=${apiKey}&maxResults=${maxResults}`;
 
@@ -48,6 +48,7 @@ form.addEventListener('submit', (event) => {
 
 function displayVideos(data) {
   const results = document.querySelector('#results');
+  results.innerHTML='';
 
   for (const video of data) {
     const thumbnail = document.createElement('img');
