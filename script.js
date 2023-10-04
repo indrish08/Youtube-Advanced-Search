@@ -6,7 +6,7 @@
 const apiKey = 'AIzaSyCbUFozA3Gss_hcObFhxB22TcSXlxUiYUM';
 const targetCountry = 'US';
 const searchQuery = 'fullstack';
-const maxResults = 3;
+const maxResults = 10;
 
 const form = document.querySelector('form');
 
